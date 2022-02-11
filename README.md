@@ -9,7 +9,7 @@ The tutorial contents will be the following:
 - Part 2 - Reference documentation
 - Part 3 - Amiga hardware overview
 - Part 4 - Game Concept
-- Part 5 - Take control of the Amiga hardware
+- [Part 5 -Take control of the Amiga hardware](https://github.com/stefanocoppi/amiga_game_prog/wiki/Take-control-of-the-Amiga-hardware)
 - Part 6 - Debug techniques
 - Part 7 - Scrolling Background
 - Part 8 - Bobs
