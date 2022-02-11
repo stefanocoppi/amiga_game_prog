@@ -189,7 +189,6 @@ Il seguente frammento di codice implementa quanto descritto precedentemente:
         move.w  #$7fff,DMACON(a5)       ; disables all DMA channels
         rts
 
-Il codice sorgente completo è disponible [qui](https://github.com/stefanocoppi/amiga_game_prog/tree/master/src/hw_takeover).
 
 
 ## Implementazione di release_system
@@ -280,4 +279,4 @@ Se non ci sono errori di compilazione, è possibile eseguire il codice. Per fare
 Vedremo soltanto uno schermo nero. Premendo il tasto sinistro del mouse, si tornerà allo schermo dell'assemblatore.
 Il risultato di tanto sforzo di programmazione per il momento non è molto entusiasmante, ma  tutto funziona come previsto. Nelle prossime puntate inizieremo ad aggiungere codice per implementare il nostro videogioco e il risultato dell'esecuzione del codice inizierà ad essere più gratificante, perchè saranno visualizzate delle immagini e poi si potrà interagire con esse.
 
-
+Il codice sorgente completo è disponible [qui](https://github.com/stefanocoppi/amiga_game_prog/tree/master/src/hw_takeover).

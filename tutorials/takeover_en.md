@@ -195,8 +195,6 @@ The following code snippet implements the above:
         rts
 
 
-The full source code is available [here](https://github.com/stefanocoppi/amiga_game_prog/tree/master/src/hw_takeover).
-
 
 ## release_system implementation
 
@@ -286,4 +284,4 @@ If there are no compilation errors, you can run the code. To do this, with AsmOn
 We will only see a black screen. Pressing the left mouse button will take you back to the assembler screen.
 The result of so much programming effort isn't very exciting at the moment, but everything works as expected. In the next installments we will start adding code to implement our video game and the result of the code execution will start to be more rewarding, because images will be displayed and then you can interact with them.
 
-
+The full source code is available [here](https://github.com/stefanocoppi/amiga_game_prog/tree/master/src/hw_takeover).
