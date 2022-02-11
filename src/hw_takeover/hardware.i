@@ -9,14 +9,14 @@ HARDWARE_I      SET	1
 ; O.S. routines
 ;***************************************************************************
 EXEC_BASE       equ  4
-OldOpenLibrary  equ -$198
+OpenLibrary  equ -$198
 CloseLibrary    equ -$19e
 Disable         equ -$78
 Enable          equ -$7e
 OwnBlitter	equ -$1c8
 DisOwnBlitter	equ -$1ce
-ExecForbid	equ -132
-ExecPermit	equ -138
+Forbid	        equ -132
+Permit	        equ -138
 FindTask        equ -$126
 WaitPort        equ -$180
 GetMsg          equ -$174

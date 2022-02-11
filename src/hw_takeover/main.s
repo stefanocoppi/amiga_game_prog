@@ -2,10 +2,11 @@
 ; MAIN
 ;***************************************************************************
 
+    incdir  "dh1:game_prog_tutorials/src/hw_takeover/"
 	include "hardware.i"
 
 main:
-    lea     CUSTOM,a5               ; indirizzo base dei chip custom
+    lea     CUSTOM,a5               ; base address of custom chips registers
     bsr     take_system
     
 mainloop:

@@ -183,7 +183,7 @@ The following code snippet implements the above:
         jsr     WaitOf(a6)              ; waits a vertical blank
         jsr     WaitOf(a6)
         move.l  EXEC_BASE,a6            ; base address of Exec library
-        jsr     ExecForbid(a6)          ; disable O.S. multitasking
+        jsr     Forbid(a6)          ; disable O.S. multitasking
         jsr     Disable(a6)             ; disable O.S. interrupts
         lea     CUSTOM,a5               ; base address of custom chips registers
         move.w  INTENAR(a5),old_intena  ; save interrupts state
