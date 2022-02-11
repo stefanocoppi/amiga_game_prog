@@ -75,7 +75,6 @@ Before you start writing some code, you need to define a structure that will be 
 To facilitate the reuse and maintainability of the code, it is advisable to divide it into separate files, which will contain the routines to manage a certain functionality.
 Then we will have a main file which will contain the main loop and will call the various modules. In addition, the definition of constants, macros is grouped into include files with the extension ".i".
 
-Add figure
 
 ### Avoid multiple inclusions
 When using include files for constants, it may happen that you include the same file multiple times. To avoid multiple inclusions, with consequent assemblaer errors, we use the IFND assembler directive which assembles the following code only if the constant specified as a parameter has not already been defined. The second line defines this HARDWARE_I constant so that, at a second inclusion of the file, the code following IFND is not included. At the end of the file must be inserted the ENDC instruction which indicates the end of the code subject to the IFND clause. An example of an include file is as follows:
@@ -194,6 +193,9 @@ The following code snippet implements the above:
         move.w  DMACONR(a5),old_dma     ; saves state of DMA channels
         move.w  #$7fff,DMACON(a5)       ; disables all DMA channels
         rts
+
+
+The full source code is available [here](https://github.com/stefanocoppi/amiga_game_prog/tree/master/src/hw_takeover).
 
 
 ## release_system implementation

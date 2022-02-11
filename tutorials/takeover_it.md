@@ -74,7 +74,6 @@ Prima di iniziare a scrivere un po' di codice, è necessario definire una strutt
 Per favorire il riuso e la manutenibilità del codice, è opportuno suddividerlo in file distinti, che conterranno le routine per gestire una determinata funzionalità.
 Poi avremo un file main che conterrà il main loop e richiamerà i vari moduli. Inoltre la definizione di costanti, macro viene raggruppata in file include con estensione ".i".
 
-Aggiungere figura
 
 ### Evitare inclusioni multiple
 Quando si utilizzano file include per le costanti, potrebbe capitare di includere lo stesso file più volte. Per evitare inclusioni multiple, con conseguenti errori dell'Assemblaer, si usa la direttiva dell'assembler IFND che assembla il codice che segue soltanto se la costante specificata come parametro non è stata già definita. La seconda riga definisce tale costante HARDWARE_I in modo che,ad una seconda inclusione del file, il codice che segue IFND non venga incluso. Alla fine del file deve essere inserita l'istruzione ENDC che indica la fine del codice soggetto alla clausola IFND. Un esempio di file include è il seguente:
@@ -189,6 +188,8 @@ Il seguente frammento di codice implementa quanto descritto precedentemente:
         move.w  DMACONR(a5),old_dma     ; saves state of DMA channels
         move.w  #$7fff,DMACON(a5)       ; disables all DMA channels
         rts
+
+Il codice sorgente completo è disponible [qui](https://github.com/stefanocoppi/amiga_game_prog/tree/master/src/hw_takeover).
 
 
 ## Implementazione di release_system
