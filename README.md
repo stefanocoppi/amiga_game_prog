@@ -7,11 +7,11 @@ The tutorials will be addressed to beginners, the only pre-requisite is the know
 
 The tutorial contents will be the following:
 
-- Part 1 - Tools
-- Part 2 - Reference documentation
-- Part 3 - Amiga hardware overview
+- [Part 1 - Tools](https://github.com/stefanocoppi/amiga_game_prog/wiki/Part-1:-Tools)
+- [Part 2 - Reference documentation](https://github.com/stefanocoppi/amiga_game_prog/wiki/Part-2:-Reference-documentation)
+- [Part 3 - Amiga hardware overview](https://github.com/stefanocoppi/amiga_game_prog/wiki/Part-3:-Amiga-hardware-overview)
 - Part 4 - Game Concept
-- [Part 5 -Take control of the Amiga hardware](https://github.com/stefanocoppi/amiga_game_prog/blob/master/tutorials/takeover_en.md)
+- [Part 5 -Take control of the Amiga hardware](https://github.com/stefanocoppi/amiga_game_prog/wiki/Part-5-:-Take-control-of-the-Amiga-hardware)
 - Part 6 - Debug techniques
 - Part 7 - Scrolling Background
 - Part 8 - Bobs
