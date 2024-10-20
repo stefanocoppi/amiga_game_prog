@@ -56,25 +56,6 @@ main:
               bsr        load_palette
               bsr        init_bplpointers
 
-            ;   move.w     #6,d0
-            ;   move.w     #16,d2
-            ;   move.w     #0,d3
-            ;   lea        bgnd_surface,a1
-            ;   bsr        draw_tile
-                  
-            ;   add.w      #16,d2
-            ;   move.w     #7,d0
-            ;   bsr        draw_tile
-
-            ;   move.w     #107,d0                                      ; map column to draw
-            ;   move.w     #16,d2                                       ; x position (multiple of 16)
-            ;   lea        bgnd_surface,a1
-            ;   bsr        draw_tile_column
-
-            ;   lea        bgnd_surface,a1
-            ;   move.w     #196,d0                                      ; map column to start drawing from
-            ;   bsr        fill_screen_with_tiles
-
               move.w     camera_x,d0
               lsr.w      #4,d0                                                    ; camera_x/16 = map column to start drawing from
               move.w     d0,map_ptr
@@ -86,7 +67,20 @@ mainloop:
               bsr        swap_buffers
 
               bsr        scroll_background
-              
+
+              lea        ship_gfx,a0                                              ; ship's image address
+              lea        ship_mask,a1                                             ; ship's mask address
+              move.l     draw_buffer,a2                                           ; destination video buffer address
+              move.w     #16,d0                                                   ; x-coordinate of ship in px
+              move.w     #81,d1                                                   ; y-coordinate of ship in px
+              move.w     #32,d2                                                   ; ship width in px
+              move.w     #30,d3                                                   ; ship height in px
+              move.w     #1,d4                                                    ; spritesheet column of ship
+              move.w     #0,d5                                                    ; spritesheet row of ship
+              move.w     #96,a3                                                   ; spritesheet width
+              move.w     #30,a4                                                   ; spritesheet height
+              bsr        draw_bob                                                 ; draws player ship
+
               btst       #6,$bfe001                                               ; left mouse button pressed?
               bne        mainloop                                                  
 
@@ -495,8 +489,12 @@ scroll_background:
 ; a2   - destination video buffer address
 ; d0.w - x-coordinate of Bob in px
 ; d1.w - y-coordinate of Bob in px
-; d2.w - width in px
-; d3.w - height in px
+; d2.w - bob width in px
+; d3.w - bob height in px
+; d4.w - spritesheet column of the bob
+; d5.w - spritesheet row of the bob
+; a3.w - spritesheet width
+; a4.w - spritesheet height
 ;*****************************************************************************************************************************************
 draw_bob:
               movem.l    d0-a6,-(sp)
@@ -508,8 +506,33 @@ draw_bob:
               lsr.w      #3,d0                                                    ; offset_x = x/8
               and.w      #$fffe,d0                                                ; makes offset_x even
               add.w      d0,a2                                                    ; adds offset_x to destination address
-              
-    ; calculates the shift value for channels A,B
+    
+    ; calculates source address (channels A,B)
+              move.w     d2,d1                                                    ; makes a copy of bob width in d1
+              lsr.w      #3,d1                                                    ; bob width in bytes (bob_width/8)
+              mulu       d1,d4                                                    ; offset_x = column * (bob_width/8)
+              add.w      d4,a0                                                    ; adds offset_x to the base address of bob's image
+              add.w      d4,a1                                                    ; and bob's mask
+              mulu       d3,d5                                                    ; bob_height * row
+              move.w     a3,d1                                                    ; copies spritesheet width in d1
+              asr.w      #3,d1                                                    ; spritesheet_row_size = spritesheet_width / 8
+              mulu       d1,d5                                                    ; offset_y = row * bob_height * spritesheet_row_size
+              add.w      d5,a0                                                    ; adds offset_y to the base address of bob's image
+              add.w      d5,a1                                                    ; and bob's mask
+
+    ; calculates the modulus of channels A,B
+              move.w     a3,d1                                                    ; copies spritesheet_width in d1
+              sub.w      d2,d1                                                    ; spritesheet_width - bob_width
+              sub.w      #16,d1                                                   ; spritesheet_width - bob_width -16
+              asr.w      #3,d1                                                    ; (spritesheet_width - bob_width -16)/8
+
+    ; calculates the modulus of channels C,D
+              lsr        #3,d2                                                    ; bob_width/8
+              add.w      #2,d2                                                    ; adds 2 to the sprite width in bytes, due to the shift
+              move.w     #DISPLAY_ROW_SIZE,d4                                     ; screen width in bytes
+              sub.w      d2,d4                                                    ; modulus (d4) = screen_width - bob_width
+    
+    ; calculates the shift value for channels A,B (d6) and value of BLTCON0 (d5)
               and.w      #$000f,d6                                                ; selects the first 4 bits of x
               lsl.w      #8,d6                                                    ; moves the shift value to the upper nibble
               lsl.w      #4,d6                                                    ; so as to have the value to insert in BLTCON1
@@ -517,21 +540,17 @@ draw_bob:
               or.w       #$0fca,d5                                                ; value to insert in BLTCON0
                                                                                   ; logic function LF = $ca
 
-    ; calculates the size of a BOB bitplane
-              lsr.w      #3,d2                                                    ; width/8
-              and.w      #$fffe,d2                                                ; makes even
-              move.w     d2,d0                                                    ; copy
-              mulu       d3,d2                                                    ; multiplies by the height
+    ; calculates the blit size (d3)
+              lsl.w      #6,d3                                                    ; bob_height<<6
+              lsr.w      #1,d2                                                    ; bob_width/2 (in word)
+              or         d2,d3                                                    ; combines the dimensions into the value to be inserted into BLTSIZE
 
-    ; calculates the modulus of channels C,D
-              add.w      #2,d0                                                    ; adds 2 to the width in bytes, due to the shift
-              move.w     #DISPLAY_ROW_SIZE,d4                                     ; screen width in bytes
-              sub.w      d0,d4                                                    ; modulus (d4) = screen_width - bob_width
-    
-    ; calculates the blit size
-              lsl.w      #6,d3                                                    ; height<<6
-              lsr.w      #1,d0                                                    ; width/2 (in word)
-              or         d0,d3                                                    ; combines the dimensions into the value to be inserted into BLTSIZE
+    ; calculates the size of a BOB spritesheet bitplane
+              move.w     a3,d2                                                    ; copies spritesheet_width in d2
+              lsr.w      #3,d2                                                    ; spritesheet_width/8
+              and.w      #$fffe,d2                                                ; makes even
+              move.w     a4,d0                                                    ; spritesheet_height
+              mulu       d0,d2                                                    ; multiplies by the height
 
     ; initializes the registers that remain constant
               bsr        wait_blitter
@@ -539,8 +558,8 @@ draw_bob:
               move.w     #$0000,BLTALWM(a5)                                       ; last word of channel A: reset all bits
               move.w     d6,BLTCON1(a5)                                           ; shift value for channel A
               move.w     d5,BLTCON0(a5)                                           ; activates all 4 channels,logic_function=$CA,shift
-              move.w     #$fffe,BLTAMOD(a5)                                       ; modulus -2 to go back 2 bytes due to the extra word introduced for the shift
-              move.w     #$fffe,BLTBMOD(a5)
+              move.w     d1,BLTAMOD(a5)                                           ; modules for channels A,B
+              move.w     d1,BLTBMOD(a5)
               move.w     d4,BLTCMOD(a5)                                           ; modules for channels C,D
               move.w     d4,BLTDMOD(a5)
               moveq      #N_PLANES-1,d7                                           ; number of cycle repetitions
@@ -589,6 +608,9 @@ draw_buffer   dc.l       dbuffer2                                               
 
 tileset       incbin     "gfx/rtype_tileset.raw"                                  ; 320x304, 16 colors
 palette       incbin     "gfx/rtype.pal"
+
+ship_gfx      incbin     "gfx/ship.raw"                                           ; ship spritesheet 96x30, 3 cols x 1 row, frame size: 32 x 30
+ship_mask     incbin     "gfx/ship.mask"
 
 copperlist:  
 ; Let's start the display window 16 pixels after the default value, to cover the noise caused by shift during scrolling
