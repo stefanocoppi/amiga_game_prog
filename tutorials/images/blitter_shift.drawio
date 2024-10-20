@@ -100,24 +100,6 @@
         <mxCell id="HODwGx-z2l939eBfWZcS-46" value="Last Word Mask" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="560" y="680" width="110" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="HODwGx-z2l939eBfWZcS-47" value="" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="380" y="980" width="200" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="HODwGx-z2l939eBfWZcS-48" value="D" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="380" y="980" width="40" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="HODwGx-z2l939eBfWZcS-49" value="E" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="420" y="980" width="40" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="HODwGx-z2l939eBfWZcS-50" value="F" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="460" y="980" width="40" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="HODwGx-z2l939eBfWZcS-51" value="G" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="500" y="980" width="40" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="HODwGx-z2l939eBfWZcS-52" value="0" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="540" y="980" width="40" height="40" as="geometry" />
-        </mxCell>
         <mxCell id="HODwGx-z2l939eBfWZcS-53" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" edge="1" source="HODwGx-z2l939eBfWZcS-45">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
             <mxPoint x="540" y="640" as="sourcePoint" />
