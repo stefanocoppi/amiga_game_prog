@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "amigaassembly",
+			"vasm": {
+				"enabled": true,
+				"command": "${config:amiga-assembly.binDir}/vasmm68k_mot",
+				"args": [
+					"-m68000",
+					"-Fhunk",
+					"-linedebug",
+					"-ldots"
+				]
+			},
+			"vlink": {
+				"enabled": true,
+				"command": "${config:amiga-assembly.binDir}/vlink",
+				"includes": "*.{s,S,asm,ASM}",
+				"excludes": "",
+				"exefilename": "../uae/dh0/part14",
+				"entrypoint": "part14.s",
+				"args": [
+					"-bamigahunk",
+					"-Bstatic"
+				]
+			},
+			"problemMatcher": [],
+			"label": "amigaassembly: build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
